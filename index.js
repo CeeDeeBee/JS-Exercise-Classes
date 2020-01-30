@@ -41,7 +41,23 @@ class Airplane {
 */
 
 class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
 
+  eat(someFood) {
+    if (this.stomach.length < 10) this.stomach.push(someFood);
+  }
+
+  poop() {
+    this.stomach = [];
+  }
+
+  toString() {
+    return `${this.name}, ${this.age}`;
+  }
 }
 
 /*
@@ -59,7 +75,28 @@ class Person {
 */
 
 class Car {
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
 
+  fill(gallons) {
+    this.tank += gallons;
+  }
+
+  drive(distance) {
+    const gasNeeded = distance / this.milesPerGallon;
+    if (this.tank >= gasNeeded) {
+      this.tank -= gasNeeded;
+      this.odometer += distance;
+    } else {
+      this.odometer += this.tank * this.milesPerGallon;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
+    }
+  }
 }
 
 /*
@@ -146,11 +183,25 @@ class ProjectManager {
 ///////// END OF CHALLENGE /////////
 if (typeof exports !== 'undefined') {
   module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Lambdasian) { module.exports.Lambdasian = Lambdasian }
-  if (Instructor) { module.exports.Instructor = Instructor }
-  if (Student) { module.exports.Student = Student }
-  if (ProjectManager) { module.exports.ProjectManager = ProjectManager }
+  if (Airplane) {
+    module.exports.Airplane = Airplane
+  }
+  if (Person) {
+    module.exports.Person = Person
+  }
+  if (Car) {
+    module.exports.Car = Car
+  }
+  if (Lambdasian) {
+    module.exports.Lambdasian = Lambdasian
+  }
+  if (Instructor) {
+    module.exports.Instructor = Instructor
+  }
+  if (Student) {
+    module.exports.Student = Student
+  }
+  if (ProjectManager) {
+    module.exports.ProjectManager = ProjectManager
+  }
 }
