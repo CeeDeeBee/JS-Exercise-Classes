@@ -152,6 +152,18 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} recieves a perfect score on ${subject}`;
   }
+
+  changeGrade(student) {
+    // Randomly decide to add or subtract from grade
+    if (Math.random() >= 0.5) {
+      // If add is chosen make sure at least one is added but also ensure the final score is 100 or less
+      student.grade += Math.floor(Math.random() * ((100 - student.grade) - 1) + 1);
+    } else {
+      // If subtract is chosen make sure at least one is subtracted but also ensure the final grade is 0 or above
+      student.grade -= Math.floor(Math.random() * ((student.grade) - 1) + 1);
+    }
+    return `${student.name}'s grade is now ${student.grade}`;
+  }
 }
 
 /*
@@ -175,6 +187,8 @@ class Student extends Lambdasian {
     this.previousBackground = attrs.previousBackground;
     this.className = attrs.className;
     this.favSubjects = attrs.favSubjects;
+    this.grade = attrs.grade;
+    // this.graduate = this.graduate.bind(this);
   }
 
   listSubjects() {
@@ -188,6 +202,17 @@ class Student extends Lambdasian {
 
   sprintChallenge(subject) {
     return `${this.name} has begun the sprint challenge on ${subject}`;
+  }
+
+  graduate(pM) {
+    if (this.grade > 70) {
+      console.log(`${this.name} has graduated!`);
+    } else {
+      console.log(`${this.name} has not passed. ${pM.name} will regrade and ${this.name} can try again.`);
+      console.log(`New Grade: ${pM.changeGrade(this)}`);
+      // Run until they graduate
+      this.graduate(pM);
+    }
   }
 }
 
@@ -228,6 +253,31 @@ class ProjectManager extends Instructor {
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+const instructorAttr = {
+  name: 'Luis',
+  age: 45,
+  location: 'Provo',
+  specialty: 'SQL',
+  favLanguage: 'C#',
+  catchPhrase: 'Don\'t forget the homies'
+}
+
+const studentAttr = {
+  name: 'Matt',
+  age: 30,
+  location: 'London',
+  previousBackground: 'Plumber',
+  className: 'WebEU 3',
+  favSubjects: ['JS', 'Node', 'Redux'],
+  grade: 90
+}
+
+const instructor = new ProjectManager(instructorAttr);
+const student = new Student(studentAttr);
+
+console.log(instructor.changeGrade(student));
+student.graduate(instructor);
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
